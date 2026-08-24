@@ -937,3 +937,66 @@ a:focus,a:active,button:focus{outline:3px solid var(--color-accent);outline-offs
     }
 
 }
+/* =========================================================
+   MOBILE NAVIGATION ALIGNMENT
+   ========================================================= */
+
+@media (max-width: 767px) {
+
+    .mobile-nav {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 20px !important;
+    }
+
+    /* Normal mobile navigation links */
+    .mobile-nav > a {
+        display: flex !important;
+        align-items: center;
+        justify-content: flex-start;
+
+        width: 100% !important;
+        min-height: 56px;
+
+        padding: 14px 0 !important;
+        margin: 0 !important;
+
+        box-sizing: border-box;
+
+        text-align: left;
+    }
+
+    /* Services / Industries rows */
+    .mobile-nav > .mobile-dropdown {
+        width: 100% !important;
+        margin: 0 !important;
+        box-sizing: border-box;
+    }
+
+    .mobile-dropdown-toggle {
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+
+        width: 100% !important;
+        min-height: 56px;
+
+        padding: 14px 0 !important;
+        margin: 0 !important;
+
+        box-sizing: border-box;
+
+        text-align: left;
+    }
+
+    /* Keep the text on the left */
+    .mobile-dropdown-toggle > span:first-child {
+        text-align: left;
+    }
+
+    /* Keep + on the far right */
+    .mobile-dropdown-toggle > span:last-child {
+        margin-left: auto;
+    }
+
+}
