@@ -92,8 +92,8 @@
      MOBILE NAVIGATION
      ========================================================= */
 
-  const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
-  const mobileNav = document.querySelector(".mobile-nav");
+const mobileMenuToggle = document.querySelector(".nav-toggle");
+const mobileNav = document.querySelector(".mobile-nav");
 
   if (mobileMenuToggle && mobileNav) {
     mobileMenuToggle.addEventListener("click", () => {
@@ -111,62 +111,209 @@
      MOBILE DROPDOWNS
      ========================================================= */
 
-  const mobileDropdowns = document.querySelectorAll(
-    ".mobile-dropdown"
+/* =========================================================
+   MOBILE DROPDOWNS
+   ========================================================= */
+
+const mobileDropdowns = document.querySelectorAll(
+  ".mobile-dropdown"
+);
+
+mobileDropdowns.forEach((dropdown) => {
+
+  const toggle = dropdown.querySelector(
+    ".mobile-dropdown-toggle"
   );
 
-  mobileDropdowns.forEach((dropdown) => {
-    const toggle = dropdown.querySelector(
-      ".mobile-dropdown-toggle"
-    );
+  const content = dropdown.querySelector(
+    ".mobile-dropdown-content"
+  );
 
-    const content = dropdown.querySelector(
-      ".mobile-dropdown-content"
-    );
+  if (!toggle || !content) return;
 
-    if (!toggle || !content) return;
 
-    toggle.addEventListener("click", () => {
-      const isOpen = dropdown.classList.toggle("is-open");
+  toggle.addEventListener("click", (event) => {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const isOpen =
+      dropdown.classList.contains("is-open");
+
+
+    /* Close every other top-level dropdown */
+
+    mobileDropdowns.forEach((otherDropdown) => {
+
+      if (otherDropdown !== dropdown) {
+
+        otherDropdown.classList.remove("is-open");
+
+        const otherToggle =
+          otherDropdown.querySelector(
+            ".mobile-dropdown-toggle"
+          );
+
+        if (otherToggle) {
+          otherToggle.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+        }
+
+
+        /* Also close nested dropdowns */
+
+        otherDropdown
+          .querySelectorAll(".mobile-service-toggle")
+          .forEach((serviceToggle) => {
+
+            serviceToggle.classList.remove("is-open");
+
+            serviceToggle.setAttribute(
+              "aria-expanded",
+              "false"
+            );
+
+            const icon =
+              serviceToggle.querySelector(
+                "span:last-child"
+              );
+
+            if (icon) {
+              icon.textContent = "+";
+            }
+
+          });
+
+      }
+
+    });
+
+
+    /* Toggle the selected dropdown */
+
+    if (isOpen) {
+
+      dropdown.classList.remove("is-open");
 
       toggle.setAttribute(
         "aria-expanded",
-        isOpen ? "true" : "false"
+        "false"
       );
-    });
-  });
 
+    } else {
 
-  /* =========================================================
-     MOBILE NESTED DROPDOWNS
-     Used by SYSTEMS:
-     
-     Controlled Environment Systems
-     Industrial Intelligence
-     Autonomous Systems
-     Connected Infrastructure
-     ========================================================= */
-
-  const mobileServiceToggles = document.querySelectorAll(
-    ".mobile-service-toggle"
-  );
-
-  mobileServiceToggles.forEach((toggle) => {
-    const content = toggle.nextElementSibling;
-
-    if (!content) return;
-
-    toggle.addEventListener("click", () => {
-      const isOpen = toggle.classList.toggle("is-open");
+      dropdown.classList.add("is-open");
 
       toggle.setAttribute(
         "aria-expanded",
-        isOpen ? "true" : "false"
+        "true"
       );
 
-      content.classList.toggle("is-open", isOpen);
-    });
+    }
+
   });
+
+});
+
+/* =========================================================
+   MOBILE NESTED DROPDOWNS
+   ========================================================= */
+
+const mobileServiceToggles = document.querySelectorAll(
+  ".mobile-service-toggle"
+);
+
+mobileServiceToggles.forEach((toggle) => {
+
+  const content = toggle.nextElementSibling;
+
+  if (!content) return;
+
+
+  toggle.addEventListener("click", (event) => {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const isOpen =
+      toggle.classList.contains("is-open");
+
+
+    /* Close other nested dropdowns
+       inside the same top-level menu */
+
+    const parentDropdown =
+      toggle.closest(".mobile-dropdown");
+
+    if (parentDropdown) {
+
+      parentDropdown
+        .querySelectorAll(".mobile-service-toggle")
+        .forEach((otherToggle) => {
+
+          if (otherToggle !== toggle) {
+
+            otherToggle.classList.remove("is-open");
+
+            otherToggle.setAttribute(
+              "aria-expanded",
+              "false"
+            );
+
+            const otherContent =
+              otherToggle.nextElementSibling;
+
+            if (otherContent) {
+              otherContent.classList.remove("is-open");
+            }
+
+            const otherIcon =
+              otherToggle.querySelector(
+                "span:last-child"
+              );
+
+            if (otherIcon) {
+              otherIcon.textContent = "+";
+            }
+
+          }
+
+        });
+
+    }
+
+
+    /* Toggle selected nested menu */
+
+    toggle.classList.toggle(
+      "is-open",
+      !isOpen
+    );
+
+    toggle.setAttribute(
+      "aria-expanded",
+      String(!isOpen)
+    );
+
+    content.classList.toggle(
+      "is-open",
+      !isOpen
+    );
+
+
+    const icon =
+      toggle.querySelector("span:last-child");
+
+    if (icon) {
+      icon.textContent =
+        isOpen ? "+" : "−";
+    }
+
+  });
+
+});
 
 
   /* =========================================================
