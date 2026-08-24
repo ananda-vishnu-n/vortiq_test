@@ -202,7 +202,108 @@ a:focus,a:active,button:focus{outline:3px solid var(--color-accent);outline-offs
 .mobile-nav.open{display:block}
 .mobile-nav a{display:block;padding:var(--space-sm) 0;color:var(--color-text);font-weight:600}
 .mobile-nav a:hover{color:var(--color-accent)}
+/* Mobile dropdown navigation */
 
+.mobile-dropdown{
+  border-top:1px solid var(--color-medium-gray);
+}
+
+.mobile-dropdown-toggle,
+.mobile-service-toggle{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:var(--color-text);
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  text-align:left;
+}
+
+.mobile-dropdown-toggle{
+  padding:16px 0;
+  font-weight:600;
+  font-size:1rem;
+}
+
+.mobile-dropdown-toggle:hover,
+.mobile-dropdown-toggle:focus-visible{
+  color:var(--color-accent);
+}
+
+.mobile-dropdown-chevron{
+  font-size:1.3rem;
+  line-height:1;
+  transition:transform var(--transition-fast) ease;
+}
+
+.mobile-dropdown.is-open .mobile-dropdown-chevron{
+  transform:rotate(45deg);
+}
+
+.mobile-dropdown-content{
+  display:none;
+  padding:0 0 10px 16px;
+}
+
+.mobile-dropdown.is-open .mobile-dropdown-content{
+  display:block;
+}
+
+.mobile-dropdown-content > a{
+  display:block;
+  padding:11px 0;
+  color:var(--color-text);
+  font-size:0.95rem;
+  font-weight:500;
+}
+
+.mobile-dropdown-content > a:hover{
+  color:var(--color-accent);
+}
+
+
+/* Nested Services categories */
+
+.mobile-service-toggle{
+  padding:13px 0;
+  font-size:0.95rem;
+  font-weight:600;
+  color:var(--color-text);
+}
+
+.mobile-service-toggle:hover,
+.mobile-service-toggle:focus-visible{
+  color:var(--color-accent);
+}
+
+.mobile-service-content{
+  display:none;
+  padding:0 0 8px 16px;
+}
+
+.mobile-service-toggle.is-open + .mobile-service-content{
+  display:block;
+}
+
+.mobile-service-content a{
+  display:block;
+  padding:8px 0;
+  color:var(--color-text);
+  font-size:0.9rem;
+  font-weight:400;
+}
+
+.mobile-service-content a:hover{
+  color:var(--color-accent);
+}
+
+.mobile-contact{
+  margin-top:18px;
+  justify-content:center;
+  width:100%;
+}
 /* Sticky / scroll state */
 .site-header.is-scrolling{backdrop-filter:none;box-shadow:none;border-bottom:1px solid var(--color-medium-gray)}
 
