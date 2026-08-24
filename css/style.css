@@ -63,6 +63,13 @@
 html,body{height:100%}
 html{font-family:var(--font-family-system);font-size:16px;background:var(--color-background);color:var(--color-text);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 body{margin:0;line-height:var(--line-height-normal);font-size:var(--type-body);font-weight:400}
+
+/* Desktop viewport overflow protection */
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
 img{max-width:100%;height:auto;display:block}
 a{text-decoration:none;color:var(--color-text)}
 button{font:inherit}
@@ -172,23 +179,29 @@ a:focus,a:active,button:focus{outline:3px solid var(--color-accent);outline-offs
   transform:rotate(180deg);
 }
 
-/* Shared desktop mega-menu shell */
+/* Shared desktop mega-menu shell — viewport anchored */
 .mega-menu{
-  position:absolute;
-  top:calc(100% + 1px);
+  position:fixed;
+  top:88px;
   left:50%;
+  width:min(1350px, calc(100vw - 40px));
+  max-width:calc(100vw - 40px);
+  box-sizing:border-box;
   transform:translateX(-50%) translateY(12px);
-  width:min(1120px, calc(100vw - 48px));
+
   background:#fff;
   border:1px solid var(--color-medium-gray);
   box-shadow:0 20px 50px rgba(0,0,0,0.10);
+
   opacity:0;
   visibility:hidden;
   pointer-events:none;
+
   transition:
     opacity var(--transition-medium) ease,
     transform var(--transition-medium) ease,
     visibility var(--transition-medium) ease;
+
   z-index:100;
 }
 
@@ -196,7 +209,7 @@ a:focus,a:active,button:focus{outline:3px solid var(--color-accent);outline-offs
   opacity:1;
   visibility:visible;
   pointer-events:auto;
-  transform:translateX(-50%);
+  transform:translateX(-50%) translateY(0);
 }
 
 /* SYSTEMS — editorial four-column mega menu */
@@ -291,6 +304,7 @@ a:focus,a:active,button:focus{outline:3px solid var(--color-accent);outline-offs
   display:grid;
   grid-template-columns:320px minmax(0,1fr);
   min-height:420px;
+  min-width:0;
 }
 
 /*.mega-menu__left{
@@ -361,7 +375,7 @@ a:focus,a:active,button:focus{outline:3px solid var(--color-accent);outline-offs
 /* Tablet: two-column systems menu */
 @media (max-width:1100px) and (min-width:768px){
   .mega-menu--systems{
-    width:min(920px, calc(100vw - 32px));
+    max-width:calc(100vw - 32px);
   }
 
   .systems-mega__grid{
@@ -1067,7 +1081,6 @@ a:focus,a:active,button:focus{outline:3px solid var(--color-accent);outline-offs
 
 .mega-menu--technology {
   display: block;
-  width: min(1120px, calc(100vw - 48px));
   min-height: auto;
   padding: 0;
 }
@@ -1237,7 +1250,7 @@ a:focus,a:active,button:focus{outline:3px solid var(--color-accent);outline-offs
 @media (max-width: 1100px) and (min-width: 768px) {
 
   .mega-menu--technology {
-    width: min(920px, calc(100vw - 32px));
+    max-width:calc(100vw - 32px);
   }
 
   .technology-mega__grid {
@@ -1266,24 +1279,6 @@ a:focus,a:active,button:focus{outline:3px solid var(--color-accent);outline-offs
    EDITORIAL MEGA MENUS
    CAPABILITIES / R&D / PROJECTS / COMPANY
    ========================================================= */
-
-.mega-menu--editorial {
-  display: block !important;
-
-  position: absolute;
-
-  width: min(1120px, calc(100vw - 32px));
-  max-width: calc(100vw - 32px);
-
-  min-width: 0;
-
-  padding: 0;
-
-  box-sizing: border-box;
-
-  overflow: hidden;
-}
-
 
 /* =========================================================
    HEADER
@@ -1516,4 +1511,71 @@ a:focus,a:active,button:focus{outline:3px solid var(--color-accent);outline-offs
         margin-left: auto;
     }
 
+}
+
+
+/* =========================================================
+   FINAL DESKTOP MEGA-MENU ALIGNMENT FIX
+   ========================================================= */
+
+@media (min-width: 768px) {
+
+  html,
+  body {
+    width:100%;
+    max-width:100%;
+    overflow-x:clip;
+  }
+
+  .site-header,
+  .site-header__inner,
+  .site-nav {
+    min-width:0;
+    max-width:100%;
+  }
+
+  .mega-menu {
+    position:fixed;
+    top:88px;
+    left:50%;
+    right:auto;
+
+    width:min(1350px, calc(100vw - 40px));
+    max-width:calc(100vw - 40px);
+
+    margin:0;
+    box-sizing:border-box;
+
+    transform:translateX(-50%) translateY(12px);
+  }
+
+  .nav-item.is-open .mega-menu {
+    transform:translateX(-50%) translateY(0);
+  }
+
+  .mega-menu--technology,
+  .mega-menu--systems {
+    width:min(1350px, calc(100vw - 40px));
+    max-width:calc(100vw - 40px);
+  }
+
+  .mega-menu:not(.mega-menu--systems):not(.mega-menu--technology) {
+    grid-template-columns:320px minmax(0,1fr);
+    min-width:0;
+  }
+
+  .mega-menu > *,
+  .editorial-mega__grid,
+  .technology-mega__grid,
+  .systems-mega__grid {
+    min-width:0;
+    max-width:100%;
+    box-sizing:border-box;
+  }
+
+  .editorial-mega__grid,
+  .technology-mega__grid,
+  .systems-mega__grid {
+    overflow:hidden;
+  }
 }
