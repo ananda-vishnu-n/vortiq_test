@@ -88,24 +88,27 @@
   });
 
 
-  /* =========================================================
-     MOBILE NAVIGATION
-     ========================================================= */
+/* =========================================================
+   MOBILE NAVIGATION
+   ========================================================= */
 
 const mobileMenuToggle = document.querySelector(".nav-toggle");
 const mobileNav = document.querySelector(".mobile-nav");
 
-  if (mobileMenuToggle && mobileNav) {
-    mobileMenuToggle.addEventListener("click", () => {
-      const isOpen = mobileNav.classList.toggle("is-open");
+if (mobileMenuToggle && mobileNav) {
 
-      mobileMenuToggle.setAttribute(
-        "aria-expanded",
-        isOpen ? "true" : "false"
-      );
-    });
-  }
+  mobileMenuToggle.addEventListener("click", () => {
 
+    const isOpen = mobileNav.classList.toggle("open");
+
+    mobileMenuToggle.setAttribute(
+      "aria-expanded",
+      isOpen ? "true" : "false"
+    );
+
+  });
+
+}
 
   /* =========================================================
      MOBILE DROPDOWNS
