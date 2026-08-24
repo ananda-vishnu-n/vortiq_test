@@ -1,247 +1,344 @@
-﻿/* js/main.js — minimal interactions
-   - Mobile navigation toggle
-   - Header scroll state
-   Keep behavior small and accessible; respect reduced motion
-*/
-(function(){
-  document.addEventListener('DOMContentLoaded', function(){
-    var navToggle = document.querySelector('.nav-toggle');
-    var mobileNav = document.querySelector('.mobile-nav');
-    var siteHeader = document.querySelector('.site-header');
-/* Desktop dropdown menus: Services + Industries */
+﻿document.addEventListener("DOMContentLoaded", () => {
+  /* =========================================================
+     DESKTOP NAVIGATION
+     ========================================================= */
 
-var dropdownItems = document.querySelectorAll('.nav-item.has-dropdown');
+  const navItems = document.querySelectorAll(".nav-item.has-dropdown");
 
-dropdownItems.forEach(function(dropdownItem){
+  navItems.forEach((navItem) => {
+    const trigger = navItem.querySelector(".nav-trigger");
 
-  var trigger = dropdownItem.querySelector('.nav-trigger');
-  var menu = dropdownItem.querySelector('.mega-menu');
+    if (!trigger) return;
 
-  if(!trigger || !menu){
-    return;
-  }
-
-  var isHovered = false;
-  var isClicked = false;
-
-  function updateDropdown(){
-    var shouldOpen = isHovered || isClicked;
-
-    dropdownItem.classList.toggle('is-open', shouldOpen);
-    trigger.setAttribute('aria-expanded', String(shouldOpen));
-  }
-
-  function closeDropdown(){
-    isHovered = false;
-    isClicked = false;
-    updateDropdown();
-  }
-
-/* Hover opens this dropdown and closes all other dropdowns */
-dropdownItem.addEventListener('mouseenter', function(){
-
-  dropdownItems.forEach(function(otherDropdown){
-
-    if(otherDropdown !== dropdownItem){
-
-      otherDropdown.classList.remove('is-open');
-
-      var otherTrigger = otherDropdown.querySelector('.nav-trigger');
-
-      if(otherTrigger){
-        otherTrigger.setAttribute('aria-expanded', 'false');
-      }
-
-    }
-
-  });
-
-  isHovered = true;
-  updateDropdown();
-});
-
-  /* Leave the entire dropdown area */
-  dropdownItem.addEventListener('mouseleave', function(){
-    isHovered = false;
-    updateDropdown();
-  });
-
-  /* Click also opens/toggles dropdown */
-  trigger.addEventListener('click', function(event){
-    event.stopPropagation();
-
-    isClicked = !isClicked;
-    updateDropdown();
-  });
-
-  /* Click categories inside mega menu */
-  var tabs = menu.querySelectorAll('.mega-menu__item');
-
-  tabs.forEach(function(tab){
-
-    tab.addEventListener('click', function(event){
+    // Click behavior
+    trigger.addEventListener("click", (event) => {
+      event.preventDefault();
       event.stopPropagation();
 
-      tabs.forEach(function(item){
-        item.classList.remove('is-active');
-      });
+      const isOpen = navItem.classList.contains("is-open");
 
-      menu.querySelectorAll('.mega-menu__panel').forEach(function(panel){
-        panel.classList.remove('is-visible');
-      });
+      // Close all other dropdowns first
+      navItems.forEach((item) => {
+        item.classList.remove("is-open");
 
-      tab.classList.add('is-active');
+        const itemTrigger = item.querySelector(".nav-trigger");
 
-      var targetId = tab.getAttribute('data-target');
-
-      if(targetId){
-        var targetPanel = document.getElementById(targetId);
-
-        if(targetPanel){
-          targetPanel.classList.add('is-visible');
+        if (itemTrigger) {
+          itemTrigger.setAttribute("aria-expanded", "false");
         }
+      });
+
+      // Open the clicked dropdown
+      if (!isOpen) {
+        navItem.classList.add("is-open");
+        trigger.setAttribute("aria-expanded", "true");
       }
     });
 
+    // Keyboard accessibility
+    trigger.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        trigger.click();
+      }
+
+      if (event.key === "Escape") {
+        navItem.classList.remove("is-open");
+        trigger.setAttribute("aria-expanded", "false");
+      }
+    });
   });
 
-});
 
-document.addEventListener('click', function(event){
+  /* =========================================================
+     CLOSE DROPDOWNS WHEN CLICKING OUTSIDE
+     ========================================================= */
 
-  dropdownItems.forEach(function(dropdownItem){
+  document.addEventListener("click", (event) => {
+    if (!event.target.closest(".nav-item.has-dropdown")) {
+      navItems.forEach((navItem) => {
+        navItem.classList.remove("is-open");
 
-    if(!dropdownItem.contains(event.target)){
-      dropdownItem.classList.remove('is-open');
+        const trigger = navItem.querySelector(".nav-trigger");
 
-      var trigger = dropdownItem.querySelector('.nav-trigger');
-
-      if(trigger){
-        trigger.setAttribute('aria-expanded', 'false');
-      }
+        if (trigger) {
+          trigger.setAttribute("aria-expanded", "false");
+        }
+      });
     }
-
   });
 
-});
 
-document.addEventListener('keydown', function(event){
+  /* =========================================================
+     ESCAPE KEY — CLOSE ALL DESKTOP DROPDOWNS
+     ========================================================= */
 
-  if(event.key === 'Escape'){
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
 
-    dropdownItems.forEach(function(dropdownItem){
+    navItems.forEach((navItem) => {
+      navItem.classList.remove("is-open");
 
-      dropdownItem.classList.remove('is-open');
+      const trigger = navItem.querySelector(".nav-trigger");
 
-      var trigger = dropdownItem.querySelector('.nav-trigger');
-
-      if(trigger){
-        trigger.setAttribute('aria-expanded', 'false');
+      if (trigger) {
+        trigger.setAttribute("aria-expanded", "false");
       }
-
     });
+  });
 
+
+  /* =========================================================
+     MOBILE NAVIGATION
+     ========================================================= */
+
+  const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
+  const mobileNav = document.querySelector(".mobile-nav");
+
+  if (mobileMenuToggle && mobileNav) {
+    mobileMenuToggle.addEventListener("click", () => {
+      const isOpen = mobileNav.classList.toggle("is-open");
+
+      mobileMenuToggle.setAttribute(
+        "aria-expanded",
+        isOpen ? "true" : "false"
+      );
+    });
   }
 
-});
 
-    if(navToggle && mobileNav){
-      navToggle.addEventListener('click', function(){
-        var expanded = navToggle.getAttribute('aria-expanded') === 'true';
-        navToggle.setAttribute('aria-expanded', String(!expanded));
-        mobileNav.classList.toggle('open');
-      });
+  /* =========================================================
+     MOBILE DROPDOWNS
+     ========================================================= */
 
-      mobileNav.addEventListener('click', function(e){
-        if(e.target.tagName === 'A'){
-          mobileNav.classList.remove('open');
-          navToggle.setAttribute('aria-expanded', 'false');
+  const mobileDropdowns = document.querySelectorAll(
+    ".mobile-dropdown"
+  );
+
+  mobileDropdowns.forEach((dropdown) => {
+    const toggle = dropdown.querySelector(
+      ".mobile-dropdown-toggle"
+    );
+
+    const content = dropdown.querySelector(
+      ".mobile-dropdown-content"
+    );
+
+    if (!toggle || !content) return;
+
+    toggle.addEventListener("click", () => {
+      const isOpen = dropdown.classList.toggle("is-open");
+
+      toggle.setAttribute(
+        "aria-expanded",
+        isOpen ? "true" : "false"
+      );
+    });
+  });
+
+
+  /* =========================================================
+     MOBILE NESTED DROPDOWNS
+     Used by SYSTEMS:
+     
+     Controlled Environment Systems
+     Industrial Intelligence
+     Autonomous Systems
+     Connected Infrastructure
+     ========================================================= */
+
+  const mobileServiceToggles = document.querySelectorAll(
+    ".mobile-service-toggle"
+  );
+
+  mobileServiceToggles.forEach((toggle) => {
+    const content = toggle.nextElementSibling;
+
+    if (!content) return;
+
+    toggle.addEventListener("click", () => {
+      const isOpen = toggle.classList.toggle("is-open");
+
+      toggle.setAttribute(
+        "aria-expanded",
+        isOpen ? "true" : "false"
+      );
+
+      content.classList.toggle("is-open", isOpen);
+    });
+  });
+
+
+  /* =========================================================
+     MOBILE NAV — CLOSE WHEN LINK IS CLICKED
+     ========================================================= */
+
+  const mobileLinks = document.querySelectorAll(
+    ".mobile-nav a"
+  );
+
+  mobileLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      if (!mobileNav || !mobileMenuToggle) return;
+
+      mobileNav.classList.remove("is-open");
+
+      mobileMenuToggle.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+    });
+  });
+
+
+  /* =========================================================
+     DESKTOP HOVER INTENT
+     
+     Keeps a dropdown open while moving from the navbar
+     trigger into the mega-menu.
+     ========================================================= */
+
+  navItems.forEach((navItem) => {
+    let closeTimer;
+
+    const openMenu = () => {
+      clearTimeout(closeTimer);
+
+      navItems.forEach((item) => {
+        if (item !== navItem) {
+          item.classList.remove("is-open");
+
+          const otherTrigger = item.querySelector(
+            ".nav-trigger"
+          );
+
+          if (otherTrigger) {
+            otherTrigger.setAttribute(
+              "aria-expanded",
+              "false"
+            );
+          }
         }
       });
+
+      navItem.classList.add("is-open");
+
+      const trigger = navItem.querySelector(
+        ".nav-trigger"
+      );
+
+      if (trigger) {
+        trigger.setAttribute(
+          "aria-expanded",
+          "true"
+        );
+      }
+    };
+
+    const scheduleClose = () => {
+      clearTimeout(closeTimer);
+
+      closeTimer = setTimeout(() => {
+        navItem.classList.remove("is-open");
+
+        const trigger = navItem.querySelector(
+          ".nav-trigger"
+        );
+
+        if (trigger) {
+          trigger.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+        }
+      }, 120);
+    };
+
+    navItem.addEventListener("mouseenter", openMenu);
+    navItem.addEventListener("mouseleave", scheduleClose);
+
+    const megaMenu = navItem.querySelector(".mega-menu");
+
+    if (megaMenu) {
+      megaMenu.addEventListener("mouseenter", () => {
+        clearTimeout(closeTimer);
+      });
+
+      megaMenu.addEventListener("mouseleave", scheduleClose);
     }
-    /* Mobile dropdown accordions */
+  });
 
-var mobileDropdowns = document.querySelectorAll('.mobile-dropdown');
 
-mobileDropdowns.forEach(function(dropdown){
+  /* =========================================================
+     SYSTEMS MEGA MENU
+     
+     The Systems menu is intentionally a simple four-column
+     editorial mega-menu, so no tab switching is required.
+     ========================================================= */
 
-  var toggle = dropdown.querySelector('.mobile-dropdown-toggle');
+  const systemsMenu = document.querySelector(
+    "#systems-menu"
+  );
 
-  if(!toggle){
-    return;
+  if (systemsMenu) {
+    systemsMenu.addEventListener("click", (event) => {
+      event.stopPropagation();
+    });
   }
 
-  toggle.addEventListener('click', function(){
 
-    var isOpen = dropdown.classList.contains('is-open');
+  /* =========================================================
+     GENERAL HEADER SCROLL STATE
+     ========================================================= */
 
-    /* Close other mobile dropdowns */
-    mobileDropdowns.forEach(function(otherDropdown){
-      otherDropdown.classList.remove('is-open');
+  const header = document.querySelector(".site-header");
 
-      var otherToggle = otherDropdown.querySelector('.mobile-dropdown-toggle');
-
-      if(otherToggle){
-        otherToggle.setAttribute('aria-expanded', 'false');
+  if (header) {
+    const updateHeader = () => {
+      if (window.scrollY > 10) {
+        header.classList.add("is-scrolled");
+      } else {
+        header.classList.remove("is-scrolled");
       }
-    });
+    };
 
-    /* Open selected dropdown */
-    if(!isOpen){
-      dropdown.classList.add('is-open');
-      toggle.setAttribute('aria-expanded', 'true');
+    updateHeader();
+
+    window.addEventListener(
+      "scroll",
+      updateHeader,
+      { passive: true }
+    );
+  }
+
+
+  /* =========================================================
+     CURRENT PAGE NAVIGATION STATE
+     ========================================================= */
+
+  const currentPage = window.location.pathname
+    .split("/")
+    .pop();
+
+  const navLinks = document.querySelectorAll(
+    ".site-nav a"
+  );
+
+  navLinks.forEach((link) => {
+    const href = link.getAttribute("href");
+
+    if (!href) return;
+
+    const linkPage = href
+      .split("/")
+      .pop()
+      .split("#")[0];
+
+    if (
+      linkPage &&
+      linkPage === currentPage
+    ) {
+      link.classList.add("is-current");
     }
-
   });
-
 });
-
-
-/* Nested service accordions */
-
-var mobileServiceToggles = document.querySelectorAll('.mobile-service-toggle');
-
-mobileServiceToggles.forEach(function(toggle){
-
-  toggle.addEventListener('click', function(){
-
-    var isOpen = toggle.classList.contains('is-open');
-
-    toggle.classList.toggle('is-open', !isOpen);
-    toggle.setAttribute('aria-expanded', String(!isOpen));
-
-    var icon = toggle.querySelector('span:last-child');
-
-    if(icon){
-      icon.textContent = isOpen ? '+' : '−';
-    }
-
-  });
-
-});
-    if(siteHeader){
-      var ticking = false;
-
-      function onScroll(){
-        var sc = window.scrollY || window.pageYOffset;
-        if(sc > 10){
-          siteHeader.classList.add('is-scrolling');
-        } else {
-          siteHeader.classList.remove('is-scrolling');
-        }
-      }
-
-      window.addEventListener('scroll', function(){
-        if(!ticking){
-          window.requestAnimationFrame(function(){
-            onScroll();
-            ticking = false;
-          });
-          ticking = true;
-        }
-      });
-
-      onScroll();
-    }
-  });
-})();

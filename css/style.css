@@ -110,43 +110,88 @@ a:focus,a:active,button:focus{outline:3px solid var(--color-accent);outline-offs
   top:0;
   z-index:80;
 }
+
 .site-header__inner{
   display:flex;
   align-items:center;
   justify-content:space-between;
   min-height:88px;
 }
-.site-brand{font-weight:700;letter-spacing:0.12em;color:var(--color-text);font-size:0.95rem}
+
+.site-brand{
+  font-weight:700;
+  letter-spacing:0.12em;
+  color:var(--color-text);
+  font-size:0.95rem;
+}
+
 .site-brand a{color:var(--color-text)}
 .site-brand a:hover{color:var(--color-accent)}
 
-.site-nav{display:flex;align-items:center;gap:clamp(0.75rem, 1.6vw, 1.8rem);position:relative}
+.site-nav{
+  display:flex;
+  align-items:center;
+  gap:clamp(0.75rem, 1.6vw, 1.8rem);
+  position:relative;
+}
+
 .nav-item{position:relative}
-.nav-link{appearance:none;background:none;border:0;color:var(--color-text);padding:10px 0;font:inherit;font-weight:600;font-size:1rem;cursor:pointer;display:inline-flex;align-items:center;gap:0.4rem;transition:color var(--transition-fast) ease}
-.nav-link:hover,.nav-link:focus-visible,.nav-item:hover > .nav-link,.nav-item:focus-within > .nav-link{color:var(--color-accent)}
-.nav-chevron{display:inline-block;transition:transform var(--transition-fast) ease;font-size:0.8em}
+
+.nav-link{
+  appearance:none;
+  background:none;
+  border:0;
+  color:var(--color-text);
+  padding:10px 0;
+  font:inherit;
+  font-weight:600;
+  font-size:1rem;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:0.4rem;
+  transition:color var(--transition-fast) ease;
+}
+
+.nav-link:hover,
+.nav-link:focus-visible,
+.nav-item:hover > .nav-link,
+.nav-item:focus-within > .nav-link{
+  color:var(--color-accent);
+}
+
+.nav-chevron{
+  display:inline-block;
+  transition:transform var(--transition-fast) ease;
+  font-size:0.8em;
+}
+
 .nav-item.is-open .nav-chevron,
 .nav-item:hover .nav-chevron,
-.nav-item:focus-within .nav-chevron{transform:rotate(180deg)}
+.nav-item:focus-within .nav-chevron{
+  transform:rotate(180deg);
+}
 
+/* Shared desktop mega-menu shell */
 .mega-menu{
   position:absolute;
-  top:100%;
+  top:calc(100% + 1px);
   left:50%;
-  transform:translateX(-50%) translateY(10px);
-  display:grid;
-  grid-template-columns: 320px minmax(0, 1fr);
-  width:min(760px, calc(100vw - 56px));
-  min-height:420px;
+  transform:translateX(-50%) translateY(12px);
+  width:min(1120px, calc(100vw - 48px));
   background:#fff;
   border:1px solid var(--color-medium-gray);
-  box-shadow:0 14px 34px rgba(0,0,0,0.08);
+  box-shadow:0 20px 50px rgba(0,0,0,0.10);
   opacity:0;
   visibility:hidden;
   pointer-events:none;
-  transition:opacity var(--transition-medium) ease, transform var(--transition-medium) ease, visibility var(--transition-medium) ease;
+  transition:
+    opacity var(--transition-medium) ease,
+    transform var(--transition-medium) ease,
+    visibility var(--transition-medium) ease;
   z-index:100;
 }
+
 .nav-item.is-open .mega-menu{
   opacity:1;
   visibility:visible;
@@ -154,13 +199,112 @@ a:focus,a:active,button:focus{outline:3px solid var(--color-accent);outline-offs
   transform:translateX(-50%);
 }
 
-.mega-menu__left{
+/* SYSTEMS — editorial four-column mega menu */
+.mega-menu--systems{
+  padding:0;
+}
+
+.systems-mega__header{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:40px;
+  padding:28px 32px 24px;
+  border-bottom:1px solid var(--color-medium-gray);
+}
+
+.systems-mega__eyebrow{
+  font-size:0.72rem;
+  line-height:1;
+  letter-spacing:0.16em;
+  font-weight:700;
+  color:var(--color-accent);
+  margin-bottom:10px;
+}
+
+.systems-mega__intro{
+  margin:0;
+  font-size:1rem;
+  line-height:1.4;
+  color:#555;
+  max-width:560px;
+}
+
+.systems-mega__overview{
+  flex:0 0 auto;
+  font-size:0.82rem;
+  font-weight:700;
+  color:var(--color-text);
+  white-space:nowrap;
+}
+
+.systems-mega__overview:hover{
+  color:var(--color-accent);
+}
+
+.systems-mega__grid{
+  display:grid;
+  grid-template-columns:repeat(4, minmax(0, 1fr));
+}
+
+.systems-mega__group{
+  padding:28px 26px 30px;
+  min-height:245px;
+  border-right:1px solid var(--color-light-gray);
+}
+
+.systems-mega__group:last-child{
+  border-right:0;
+}
+
+.systems-mega__group h3{
+  margin:0 0 20px;
+  font-size:0.72rem;
+  line-height:1.35;
+  letter-spacing:0.08em;
+  font-weight:700;
+  color:#555;
+}
+
+.systems-mega__group a{
+  display:block;
+  padding:7px 0;
+  color:var(--color-text);
+  font-size:0.88rem;
+  line-height:1.35;
+  font-weight:500;
+  transition:
+    color var(--transition-fast) ease,
+    transform var(--transition-fast) ease;
+}
+
+.systems-mega__group a:hover{
+  color:var(--color-accent);
+  transform:translateX(3px);
+}
+
+/* =========================================================
+   OTHER TABBED MEGA MENUS
+   ========================================================= */
+
+.mega-menu:not(.mega-menu--systems):not(.mega-menu--technology){
+  display:grid;
+  grid-template-columns:320px minmax(0,1fr);
+  min-height:420px;
+}
+
+/*.mega-menu__left{
   background:#0D1D2B;
   color:#fff;
   padding:18px 0;
-}
-.mega-menu__left--compact{padding-top:12px;padding-bottom:12px}
-.mega-menu__item{
+}*/
+
+/*.mega-menu__left--compact{
+  padding-top:12px;
+  padding-bottom:12px;
+}*/
+
+/*.mega-menu__item{
   width:100%;
   border:0;
   background:transparent;
@@ -174,19 +318,64 @@ a:focus,a:active,button:focus{outline:3px solid var(--color-accent);outline-offs
   font:inherit;
   font-weight:500;
   cursor:pointer;
-  transition:background var(--transition-fast) ease, color var(--transition-fast) ease;
+  transition:
+    background var(--transition-fast) ease,
+    color var(--transition-fast) ease;
 }
+*/
 .mega-menu__item:hover,
 .mega-menu__item.is-active{
   background:rgba(17,145,201,0.12);
   color:var(--color-accent);
 }
-.mega-menu__right{padding:12px 0 10px;background:#fff}
-.mega-menu__right--compact{padding-top:8px}
-.mega-menu__panel{display:none;padding:10px 28px 16px}
-.mega-menu__panel.is-visible{display:block}
-.mega-menu__panel a{display:block;padding:10px 0;color:var(--color-text);font-weight:500}
-.mega-menu__panel a:hover{color:var(--color-accent)}
+
+/*.mega-menu__right{
+  padding:12px 0 10px;
+  background:#fff;
+}
+
+.mega-menu__right--compact{
+  padding-top:8px;
+}
+
+.mega-menu__panel{
+  display:none;
+  padding:10px 28px 16px;
+}
+
+.mega-menu__panel.is-visible{
+  display:block;
+}
+
+.mega-menu__panel a{
+  display:block;
+  padding:10px 0;
+  color:var(--color-text);
+  font-weight:500;
+}
+
+.mega-menu__panel a:hover{
+  color:var(--color-accent);
+}*/
+
+/* Tablet: two-column systems menu */
+@media (max-width:1100px) and (min-width:768px){
+  .mega-menu--systems{
+    width:min(920px, calc(100vw - 32px));
+  }
+
+  .systems-mega__grid{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+  }
+
+  .systems-mega__group:nth-child(2){
+    border-right:0;
+  }
+
+  .systems-mega__group:nth-child(-n+2){
+    border-bottom:1px solid var(--color-light-gray);
+  }
+}
 
 /* Nav toggle (mobile) */
 .nav-toggle{display:none;background:none;border:0;padding:8px;cursor:pointer}
@@ -873,69 +1062,397 @@ a:focus,a:active,button:focus{outline:3px solid var(--color-accent);outline-offs
 
 }
 /* =========================================================
-   TECHNOLOGY PAGE - FIX EDITORIAL SECTIONS ON MOBILE
+   TECHNOLOGY MEGA MENU
    ========================================================= */
 
-@media (max-width: 767px) {
+.mega-menu--technology {
+  display: block;
+  width: min(1120px, calc(100vw - 48px));
+  min-height: auto;
+  padding: 0;
+}
 
-    .editorial-split {
-        display: grid !important;
-        grid-template-columns: minmax(0, 1fr) !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        gap: 32px !important;
 
-        overflow: visible !important;
-    }
+/* =========================================================
+   TECHNOLOGY HEADER
+   ========================================================= */
 
-    .editorial-split .split-content,
-    .editorial-split .split-image {
-        grid-column: 1 / -1 !important;
+.technology-mega__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
 
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
+  gap: 40px;
 
-        box-sizing: border-box !important;
-    }
+  padding: 28px 32px 24px;
 
-    .editorial-split .split-content {
-        padding: 0 !important;
-        margin: 0 !important;
-    }
+  border-bottom: 1px solid var(--color-medium-gray);
+}
 
-    .editorial-split .split-image {
-        margin: 0 !important;
-        padding: 0 !important;
-    }
+.technology-mega__eyebrow {
+  font-size: 0.72rem;
+  line-height: 1;
 
-    .editorial-split .split-image > div {
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
+  letter-spacing: 0.16em;
 
-        height: 220px !important;
+  font-weight: 700;
 
-        box-sizing: border-box !important;
-    }
+  color: var(--color-accent);
 
-    /* Prevent long text from creating horizontal overflow */
-    .editorial-split h2,
-    .editorial-split h3,
-    .editorial-split p,
-    .editorial-split li {
-        max-width: 100% !important;
-        overflow-wrap: anywhere !important;
-        word-break: normal !important;
-    }
+  margin-bottom: 10px;
+}
 
-    .editorial-split ul {
-        width: 100% !important;
-        max-width: 100% !important;
-        padding-left: 20px !important;
-        box-sizing: border-box !important;
-    }
+.technology-mega__intro {
+  margin: 0;
 
+  font-size: 1rem;
+
+  line-height: 1.4;
+
+  color: #555;
+
+  max-width: 560px;
+}
+
+.technology-mega__overview {
+  flex: 0 0 auto;
+
+  font-size: 0.82rem;
+
+  font-weight: 700;
+
+  color: var(--color-text);
+
+  white-space: nowrap;
+}
+
+.technology-mega__overview:hover {
+  color: var(--color-accent);
+}
+
+
+/* =========================================================
+   TECHNOLOGY CATEGORY GRID
+   ========================================================= */
+
+.technology-mega__grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  width: 100%;
+}
+
+
+/* =========================================================
+   TECHNOLOGY CATEGORY
+   ========================================================= */
+
+.technology-mega__group {
+  padding: 28px 26px 30px;
+
+  min-height: 220px;
+
+  border-right:
+    1px solid var(--color-light-gray);
+
+  border-bottom:
+    1px solid var(--color-light-gray);
+}
+
+
+/* Last column of first row */
+
+.technology-mega__group:nth-child(4) {
+  border-right: 0;
+}
+
+
+/* Bottom row */
+
+.technology-mega__group:nth-child(5),
+.technology-mega__group:nth-child(6) {
+  border-bottom: 0;
+}
+
+
+/* Last item */
+
+.technology-mega__group:nth-child(6) {
+  border-right: 0;
+}
+
+
+/* =========================================================
+   CATEGORY TITLE
+   ========================================================= */
+
+.technology-mega__group h3 {
+  margin: 0 0 20px;
+
+  font-size: 0.72rem;
+
+  line-height: 1.35;
+
+  letter-spacing: 0.08em;
+
+  font-weight: 700;
+
+  color: #555;
+}
+
+
+/* =========================================================
+   TECHNOLOGY LINKS
+   ========================================================= */
+
+.technology-mega__group a {
+  display: block;
+
+  padding: 7px 0;
+
+  color: var(--color-text);
+
+  font-size: 0.88rem;
+
+  line-height: 1.35;
+
+  font-weight: 500;
+
+  transition:
+    color var(--transition-fast) ease,
+    transform var(--transition-fast) ease;
+}
+
+.technology-mega__group a:hover {
+  color: var(--color-accent);
+
+  transform: translateX(3px);
+}
+/* =========================================================
+   TECHNOLOGY MEGA MENU — TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) and (min-width: 768px) {
+
+  .mega-menu--technology {
+    width: min(920px, calc(100vw - 32px));
+  }
+
+  .technology-mega__grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .technology-mega__group {
+    border-right:
+      1px solid var(--color-light-gray);
+
+    border-bottom:
+      1px solid var(--color-light-gray);
+  }
+
+  .technology-mega__group:nth-child(even) {
+    border-right: 0;
+  }
+
+  .technology-mega__group:nth-child(5),
+  .technology-mega__group:nth-child(6) {
+    border-bottom: 0;
+  }
+}
+/* =========================================================
+   EDITORIAL MEGA MENUS
+   CAPABILITIES / R&D / PROJECTS / COMPANY
+   ========================================================= */
+
+.mega-menu--editorial {
+  display: block !important;
+
+  position: absolute;
+
+  width: min(1120px, calc(100vw - 32px));
+  max-width: calc(100vw - 32px);
+
+  min-width: 0;
+
+  padding: 0;
+
+  box-sizing: border-box;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.editorial-mega__header {
+  display: flex;
+
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 40px;
+
+  padding: 28px 32px 24px;
+
+  box-sizing: border-box;
+
+  border-bottom: 1px solid var(--color-medium-gray);
+
+  min-width: 0;
+}
+
+
+.editorial-mega__header > div {
+  min-width: 0;
+}
+
+
+.editorial-mega__eyebrow {
+  margin-bottom: 10px;
+
+  font-size: 0.72rem;
+
+  line-height: 1;
+
+  letter-spacing: 0.16em;
+
+  font-weight: 700;
+
+  color: var(--color-accent);
+}
+
+
+.editorial-mega__intro {
+  margin: 0;
+
+  max-width: 620px;
+
+  font-size: 1rem;
+
+  line-height: 1.45;
+
+  color: #555;
+}
+
+
+.editorial-mega__overview {
+  flex: 0 0 auto;
+
+  white-space: nowrap;
+
+  font-size: 0.82rem;
+
+  font-weight: 700;
+
+  color: var(--color-text);
+
+  text-decoration: none;
+}
+
+
+.editorial-mega__overview:hover {
+  color: var(--color-accent);
+}
+
+
+/* =========================================================
+   FOUR COLUMN CONTENT GRID
+   ========================================================= */
+
+.editorial-mega__grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  width: 100%;
+
+  min-width: 0;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   CATEGORY COLUMNS
+   ========================================================= */
+
+.editorial-mega__group {
+  min-width: 0;
+
+  padding: 28px 26px 30px;
+
+  box-sizing: border-box;
+
+  border-right:
+    1px solid var(--color-light-gray);
+}
+
+
+.editorial-mega__group:last-child {
+  border-right: 0;
+}
+
+
+/* =========================================================
+   CATEGORY HEADINGS
+   ========================================================= */
+
+.editorial-mega__group h3 {
+  margin: 0 0 20px;
+
+  font-size: 0.72rem;
+
+  line-height: 1.4;
+
+  letter-spacing: 0.10em;
+
+  font-weight: 700;
+
+  color: #555;
+
+  overflow-wrap: break-word;
+}
+
+
+/* =========================================================
+   LINKS
+   ========================================================= */
+
+.editorial-mega__group a {
+  display: block;
+
+  padding: 7px 0;
+
+  min-width: 0;
+
+  color: var(--color-text);
+
+  font-size: 0.88rem;
+
+  line-height: 1.4;
+
+  font-weight: 500;
+
+  text-decoration: none;
+
+  overflow-wrap: break-word;
+
+  transition:
+    color var(--transition-fast) ease,
+    transform var(--transition-fast) ease;
+}
+
+
+.editorial-mega__group a:hover {
+  color: var(--color-accent);
+
+  transform: translateX(3px);
 }
 /* =========================================================
    MOBILE NAVIGATION ALIGNMENT
