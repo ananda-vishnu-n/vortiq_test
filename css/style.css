@@ -872,3 +872,68 @@ a:focus,a:active,button:focus{outline:3px solid var(--color-accent);outline-offs
     }
 
 }
+/* =========================================================
+   TECHNOLOGY PAGE - FIX EDITORIAL SECTIONS ON MOBILE
+   ========================================================= */
+
+@media (max-width: 767px) {
+
+    .editorial-split {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        gap: 32px !important;
+
+        overflow: visible !important;
+    }
+
+    .editorial-split .split-content,
+    .editorial-split .split-image {
+        grid-column: 1 / -1 !important;
+
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+
+        box-sizing: border-box !important;
+    }
+
+    .editorial-split .split-content {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .editorial-split .split-image {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .editorial-split .split-image > div {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+
+        height: 220px !important;
+
+        box-sizing: border-box !important;
+    }
+
+    /* Prevent long text from creating horizontal overflow */
+    .editorial-split h2,
+    .editorial-split h3,
+    .editorial-split p,
+    .editorial-split li {
+        max-width: 100% !important;
+        overflow-wrap: anywhere !important;
+        word-break: normal !important;
+    }
+
+    .editorial-split ul {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 20px !important;
+        box-sizing: border-box !important;
+    }
+
+}
