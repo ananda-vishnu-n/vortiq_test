@@ -37,11 +37,28 @@ dropdownItems.forEach(function(dropdownItem){
     updateDropdown();
   }
 
-  /* Hover opens dropdown */
-  dropdownItem.addEventListener('mouseenter', function(){
-    isHovered = true;
-    updateDropdown();
+/* Hover opens this dropdown and closes all other dropdowns */
+dropdownItem.addEventListener('mouseenter', function(){
+
+  dropdownItems.forEach(function(otherDropdown){
+
+    if(otherDropdown !== dropdownItem){
+
+      otherDropdown.classList.remove('is-open');
+
+      var otherTrigger = otherDropdown.querySelector('.nav-trigger');
+
+      if(otherTrigger){
+        otherTrigger.setAttribute('aria-expanded', 'false');
+      }
+
+    }
+
   });
+
+  isHovered = true;
+  updateDropdown();
+});
 
   /* Leave the entire dropdown area */
   dropdownItem.addEventListener('mouseleave', function(){
