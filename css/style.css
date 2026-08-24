@@ -244,8 +244,7 @@ a:focus,a:active,button:focus{outline:3px solid var(--color-accent);outline-offs
     position: relative;
     min-height: 80vh;
     background-image:
-        url("https://bostondynamics.com/wp-content/uploads/2023/04/spot-with-spot-cam-ir.jpg");
-
+      
     background-size: cover;
     background-position: center;
 }
