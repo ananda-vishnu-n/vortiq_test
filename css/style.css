@@ -100,7 +100,18 @@ button{font:inherit}
 /* Typography helpers */
 h1,h2,h3,h4{color:var(--color-text);margin:0 0 var(--space-md) 0;font-family:var(--font-family-system);line-height:1.05}
 p{margin:0 0 var(--space-md) 0}
-.eyebrow{text-transform:uppercase;letter-spacing:0.08em;font-weight:600;font-size:var(--type-eyebrow);color:var(--color-black);opacity:0.9}
+.eyebrow{text-transform:uppercase;
+letter-spacing:0.08em;
+font-weight:600;
+font-size:var(--type-eyebrow);
+color:var(--color-black);
+opacity:0.9}
+.eyebrow1{text-transform:uppercase;
+letter-spacing:0.08em;
+font-weight:600;
+font-size:var(--type-eyebrow);
+color:var(--color-white);
+opacity:0.9}
 .lead{font-size:var(--type-lead);color:var(--color-text);opacity:0.9}
 
 /* Heading scale (desktop-first, fluid where suggested) */
@@ -129,11 +140,16 @@ a:focus,a:active,button:focus{outline:3px solid var(--color-accent);outline-offs
   min-height:88px;
 }
 
-.site-brand{
-  font-weight:700;
-  letter-spacing:0.12em;
-  color:var(--color-text);
-  font-size:0.95rem;
+.site-brand {
+  display: flex;
+  align-items: center;
+  height: 88px;
+}
+
+.site-brand img {
+  width: 150px;
+  height: auto;
+  display: block;
 }
 
 .site-brand a{color:var(--color-text)}
